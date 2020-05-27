@@ -6,9 +6,8 @@ func getFirstRepeatedSet(_ str: String) -> Character? {
     for item in Array(str) {
         if(values.contains(item)){
             return item
-        }else {
-            values.insert(item)
         }
+        values.insert(item)
     }
     return nil
 }
