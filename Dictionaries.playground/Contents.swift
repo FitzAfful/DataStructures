@@ -1,5 +1,45 @@
 import UIKit
 
+//Get First Repeated Character from String using Sets
+func getFirstRepeatedSet(_ str: String) -> Character? {
+    var values: Set<Character> = Set()
+    for item in Array(str) {
+        if(values.contains(item)){
+            return item
+        }else {
+            values.insert(item)
+        }
+    }
+    return nil
+}
+
+print(getFirstRepeatedSet("green apple"))
+
+
+
+
+
+
+//Get First Repeated Character from String
+func getFirstRepeatedChar(_ str: String) -> Character? {
+    var values: [Character: Int] = [:]
+    for item in Array(str) {
+        if(values.keys.contains(item)) {
+            values.updateValue(values[item]! + 1, forKey: item)
+        }else {
+            values.updateValue(1, forKey: item)
+        }
+    }
+    for item in Array(str) {
+        if(values[item]! > 1) {
+            return item
+        }
+    }
+
+    return nil
+}
+
+print(getFirstRepeatedChar("green apple"))
 
 //Get First Non repeated character from String
 func getFirstNonRepeatedChar(_ str: String) -> Character? {
