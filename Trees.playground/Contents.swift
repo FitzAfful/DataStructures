@@ -1,45 +1,28 @@
 import UIKit
 
-// Jump to the implementation of Tree. This is just so I can print the contents of a Class
-public protocol ReflectedStringConvertible : CustomStringConvertible { }
-
-extension ReflectedStringConvertible {
-  public var description: String {
-    let mirror = Mirror(reflecting: self)
-
-    var str = "\(mirror.subjectType)("
-    var first = true
-    for (label, value) in mirror.children {
-      if let label = label {
-        if first {
-          first = false
-        } else {
-          str += ", "
-        }
-        str += label
-        str += ": "
-        str += "\(value)"
-      }
-    }
-    str += ")"
-
-    return str
-  }
-}
-
-class Tree: ReflectedStringConvertible {
+class Tree {
 
     private var root: Node!
-    private class Node: ReflectedStringConvertible {
+    class Node {
         var value: Int? = nil
         var leftChild: Node? = nil
         var rightChild: Node? = nil
+
+        init(_ value: Int) {
+            self.value = value
+        }
+
+        func toString() -> String {
+            if(value == nil) {
+                return "Node: nil"
+            }
+            return "Node: \(value!), \nLeftChild: \(leftChild?.toString() ?? "nil"), RightChild: \(rightChild?.toString() ?? "nil")"
+        }
     }
 
     public func insert(value: Int) {
         if(root == nil) {
-            root = Node()
-            root.value = value
+            root = Node(value)
             return
         }
 
@@ -47,15 +30,13 @@ class Tree: ReflectedStringConvertible {
         while current.value != nil {
             if(value > current.value!) {
                 if(current.rightChild == nil){
-                    current.rightChild = Node()
-                    current.rightChild!.value = value
+                    current.rightChild = Node(value)
                     return
                 }
                 current = current.rightChild!
             }else {
                 if(current.leftChild == nil){
-                    current.leftChild = Node()
-                    current.leftChild!.value = value
+                    current.leftChild = Node(value)
                     return
                 }
                 current = current.leftChild!
@@ -93,12 +74,72 @@ class Tree: ReflectedStringConvertible {
 
         return false
     }
+
+    func toString() -> String {
+        if(root == nil) {
+            return "Node: nil"
+        }
+        return "Tree: \(root!.toString())"
+    }
+
+
+
+    /************************************************************************/
+
+    private func traversePreOrder(root: Node?) {
+        if(root == nil) {
+            return
+        }
+        print(root!.value!)
+        traversePreOrder(root: root!.leftChild)
+        traversePreOrder(root: root!.rightChild)
+    }
+
+    public func traversePreOrder() {
+        traversePreOrder(root: root)
+    }
+
+    /************************************************************************/
+
+    private func traverseInOrder(root: Node?) {
+        if(root == nil) {
+            return
+        }
+        traverseInOrder(root: root!.leftChild)
+        print(root!.value!)
+        traverseInOrder(root: root!.rightChild)
+    }
+
+    public func traverseInOrder() {
+        traverseInOrder(root: root)
+    }
+
+    /************************************************************************/
+
+    private func traversePostOrder(root: Node?) {
+        if(root == nil) {
+            return
+        }
+        traversePostOrder(root: root!.leftChild)
+        traversePostOrder(root: root!.rightChild)
+        print(root!.value!)
+    }
+
+    public func traversePostOrder() {
+        traversePostOrder(root: root)
+    }
 }
 
 var tree = Tree()
+tree.insert(value: 7)
+tree.insert(value: 4)
+tree.insert(value: 9)
+tree.insert(value: 1)
+tree.insert(value: 6)
+tree.insert(value: 8)
 tree.insert(value: 10)
-tree.insert(value: 20)
-tree.insert(value: 5)
-print(tree)
-
-print(tree.find(value: 0))
+//print(tree.toString())
+//print(tree.find(value: 20))
+//tree.traversePreOrder()
+tree.traverseInOrder()
+//tree.traversePostOrder()
