@@ -182,6 +182,20 @@ class Tree {
     func equals(treeB:Tree) -> Bool {
         return equals(nodeA: self.root, nodeB: treeB.root)
     }
+
+
+    /******************************************************************************/
+
+    public func isBinarySearchTree() -> Bool {
+        return isBinarySearchTree(node: root, min: Int.min, max: Int.max)
+    }
+
+    private func isBinarySearchTree(node: Node?, min: Int, max: Int) -> Bool {
+        if(node == nil) { return true }
+        if(node!.value! < min || node!.value! > max) { return false }
+        return isBinarySearchTree(node: node!.leftChild, min: min, max: node!.value!-1) && isBinarySearchTree(node: node!.rightChild, min: node!.value! + 1, max: max)
+    }
+    
 }
 
 
@@ -209,4 +223,5 @@ tree.insert(value: 10)
 //tree.traverseInOrder()
 //tree.traversePostOrder()
 //print(tree.height())
-print(aTree.equals(treeB: tree))
+//print(aTree.equals(treeB: tree))
+print(tree.isBinarySearchTree())
