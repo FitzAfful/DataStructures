@@ -128,6 +128,24 @@ class Tree {
     public func traversePostOrder() {
         traversePostOrder(root: root)
     }
+
+    /**************************************************************************/
+
+    private func height(root: Node?) -> Int{
+        if(root?.value == nil) {
+            return -1
+        }
+
+        if(root?.leftChild == nil  && root?.rightChild == nil) {
+            return 0
+        }
+
+        return 1 + max(height(root: root!.leftChild), height(root:root!.rightChild))
+    }
+
+    public func height() -> Int {
+        return height(root: root)
+    }
 }
 
 var tree = Tree()
@@ -141,5 +159,7 @@ tree.insert(value: 10)
 //print(tree.toString())
 //print(tree.find(value: 20))
 //tree.traversePreOrder()
-tree.traverseInOrder()
+//tree.traverseInOrder()
 //tree.traversePostOrder()
+
+print(tree.height())

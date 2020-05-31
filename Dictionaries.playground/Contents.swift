@@ -1,5 +1,14 @@
 import UIKit
 
+func greet(_ name: inout String) {
+    name = name.uppercased()
+    print("Greetings, \(name)!")
+}
+
+var name = "Mal"
+greet(name)
+print("Goodbye, \(name)!")
+
 //Get First Repeated Character from String using Sets
 func getFirstRepeatedSet(_ str: String) -> Character? {
     var values: Set<Character> = Set()
