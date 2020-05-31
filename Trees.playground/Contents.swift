@@ -2,7 +2,7 @@ import UIKit
 
 class Tree {
 
-    private var root: Node!
+    var root: Node!
     class Node {
         var value: Int? = nil
         var leftChild: Node? = nil
@@ -170,7 +170,30 @@ class Tree {
         return min(root: root)
     }
 
+    /******************************************************************************/
+
+    func equals(nodeA: Node?, nodeB: Node?) -> Bool {
+        if(nodeA != nil && nodeB == nil) { return false }
+        if(nodeA == nil && nodeB != nil) { return false }
+        if(nodeA == nil && nodeB == nil) { return true }
+        return (nodeA!.value == nodeB!.value) && equals(nodeA: nodeA!.leftChild, nodeB: nodeB!.leftChild) && equals(nodeA: nodeA!.rightChild, nodeB: nodeB?.rightChild)
+    }
+
+    func equals(treeB:Tree) -> Bool {
+        return equals(nodeA: self.root, nodeB: treeB.root)
+    }
 }
+
+
+
+var aTree = Tree()
+aTree.insert(value: 7)
+aTree.insert(value: 4)
+aTree.insert(value: 9)
+aTree.insert(value: 1)
+aTree.insert(value: 6)
+aTree.insert(value: 8)
+aTree.insert(value: 10)
 
 var tree = Tree()
 tree.insert(value: 7)
@@ -186,4 +209,4 @@ tree.insert(value: 10)
 //tree.traverseInOrder()
 //tree.traversePostOrder()
 //print(tree.height())
-print(tree.min())
+print(aTree.equals(treeB: tree))
