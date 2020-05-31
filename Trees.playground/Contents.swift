@@ -132,13 +132,9 @@ class Tree {
     /**************************************************************************/
 
     private func height(root: Node?) -> Int{
-        if(root?.value == nil) {
-            return -1
-        }
+        if(root?.value == nil) { return -1 }
 
-        if(root?.leftChild == nil  && root?.rightChild == nil) {
-            return 0
-        }
+        if(isLeaf()) { return 0 }
 
         return 1 + max(height(root: root!.leftChild), height(root:root!.rightChild))
     }
@@ -146,6 +142,34 @@ class Tree {
     public func height() -> Int {
         return height(root: root)
     }
+
+
+    /******************************************************************************/
+
+    private func isLeaf() -> Bool {
+        return root?.leftChild == nil  && root?.rightChild == nil
+    }
+
+    /******************************************************************************/
+
+    private func min(root: Node?) -> Int {
+        //if(isLeaf()) { return (root?.value!)! }
+        if (root?.leftChild == nil  && root?.rightChild == nil) {
+            return (root?.value!)!
+        }
+
+        let left = min(root: root!.leftChild)
+        let right = min(root: root!.rightChild)
+        print("Left: \(left), Right: \(right)")
+
+        let minValue = Swift.min(left,right)
+        return Swift.min(minValue, root!.value!)
+    }
+
+    public func min() -> Int {
+        return min(root: root)
+    }
+
 }
 
 var tree = Tree()
@@ -161,5 +185,5 @@ tree.insert(value: 10)
 //tree.traversePreOrder()
 //tree.traverseInOrder()
 //tree.traversePostOrder()
-
-print(tree.height())
+//print(tree.height())
+print(tree.min())
